@@ -1,5 +1,5 @@
-# Initialize 'dotnet' dictionary with default settings for the dotnet formula
-{% set dotnet = { 
+# Initialize 'dotnet4' dictionary with default settings for the dotnet4 formula
+{% set dotnet4 = { 
     'version'     : '4.5.51209',
 } %}
 
@@ -14,7 +14,7 @@
 } %}
 
 # Over-ride defaults with user-defined settings from pillar (if available)
-{% do dotnet.update(salt['pillar.get']('dotnet:lookup', {})) %}
+{% do dotnet4.update(salt['pillar.get']('dotnet4:lookup', {})) %}
 
 # Add dotnet kb to the dotnet dictionary
-{% do dotnet.update(dotnet_ver_to_hotfix[dotnet['version']]) %}
+{% do dotnet4.update(dotnet_ver_to_hotfix[dotnet4['version']]) %}
