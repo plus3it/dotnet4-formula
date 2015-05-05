@@ -1,8 +1,8 @@
-{% from "dotnet4/map.jinja" import dotnet4 with context %}
+{%- from "dotnet4/map.jinja" import dotnet4 with context %}
 
-{% set osrelease = salt['grains.get']('osrelease','') %}
+{%- set osrelease = salt['grains.get']('osrelease','') %}
 
-{% if salt['cmd.run'](
+{%- if salt['cmd.run'](
   cmd=dotnet4.hotfix_id + ' -in (get-wmiobject -class \
       win32_quickfixengineering).HotFixID',
   shell='powershell') == 'True'
@@ -16,7 +16,7 @@ dotnet4:
     - result: True
     - comment: 'Version {{ dotnet4.version }} of package .NET is already installed.'
 
-{% elif osrelease in [ '8', '2012Server' ] %}
+{%- elif osrelease in [ '8', '2012Server' ] %}
 # For Windows 8, ws2012, or ws2012r2, use the pkg *module* to install .NET.
 dotnet4:
   module.run:
@@ -25,12 +25,13 @@ dotnet4:
       - '.NET'
     - version: {{ dotnet4.version }}
 
-{% else %}
+{%- else %}
 # For every other Windows version, use the pkg state to install the specified 
 # version of .NET.
 dotnet4:
   pkg.installed:
     - name: '.NET'
     - version: {{ dotnet4.version }}
+    - allow_updates: True
 
-{% endif %}
+{%- endif %}
