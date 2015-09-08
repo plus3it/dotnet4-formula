@@ -1,6 +1,6 @@
 # Initialize 'dotnet4' dictionary with default settings for the dotnet4 formula
 {% set dotnet4 = { 
-    'version'     : '4.5.51209',
+    'version'     : '4.6.00081',
 } %}
 
 # On Windows 8, Windows Server 2012, and Windows Server 2012, .NET is built
@@ -11,6 +11,7 @@
 
 {% set dotnet_ver_to_hotfix = {
     '4.5.51209' : { 'hotfix_id' : '"KB2934520"' },
+    '4.6.00081' : { 'hotfix_id' : '"KB3045563"' },
 } %}
 
 # Over-ride defaults with user-defined settings from pillar (if available)
