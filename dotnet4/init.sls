@@ -22,7 +22,7 @@ dotnet4:
   module.run:
     - name: pkg.install
     - pkgs:
-      - '.NET'
+      - 'dotnet'
     - version: {{ dotnet4.version }}
 
 {%- else %}
@@ -30,7 +30,7 @@ dotnet4:
 # version of .NET.
 dotnet4:
   pkg.installed:
-    - name: '.NET'
+    - name: 'dotnet'
     - version: {{ dotnet4.version }}
     - allow_updates: True
 
