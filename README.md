@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/plus3it/dotnet4-formula.svg)](https://travis-ci.org/plus3it/dotnet4-formula)
 # dotnet4
 
 Microsoft .NET (dotnet) behaves as a package on some versions of the Microsoft 
