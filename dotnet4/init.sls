@@ -2,7 +2,7 @@
 
 {%- set osrelease = salt['grains.get']('osrelease','') %}
 
-{%- if salt['cmd.run'](
+{%- if salt['cmd.shell'](
   cmd=dotnet4.hotfix_id + ' -in (get-wmiobject -class \
       win32_quickfixengineering).HotFixID',
   shell='powershell') == 'True'
