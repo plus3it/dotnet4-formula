@@ -2,7 +2,7 @@
 
 {%- set osrelease = salt['grains.get']('osrelease','') %}
 
-{%- if salt['cmd.run'](
+{%- if salt['cmd.shell'](
   cmd=dotnet4.hotfix_id + ' -in (get-wmiobject -class \
       win32_quickfixengineering).HotFixID',
   shell='powershell') == 'True'
@@ -16,7 +16,7 @@ dotnet4:
     - result: True
     - comment: 'Version {{ dotnet4.version }} of package .NET is already installed.'
 
-{%- elif osrelease in [ '8', '2012Server' ] %}
+{%- elif osrelease in [ '8', '2012Server', '2012ServerR2' ] %}
 # For Windows 8, ws2012, or ws2012r2, use the pkg *module* to install .NET.
 dotnet4:
   module.run:
