@@ -1,22 +1,31 @@
 # Initialize 'dotnet4' dictionary with default settings for the dotnet4 formula
-{% set dotnet4 = { 
+{% set dotnet4 = {
     'version'     : '4.6.01055',
 } %}
 
-# On Windows 8, Windows Server 2012, and Windows Server 2012, .NET is built
-# into the OS in a way that pkg.installed cannot check for. .NET only shows up
-# in the list of installed updates. Therefore, we need a lookup table that maps
-# .NET version numbers to Hotfix KB ID numbers. The formula will use this 
-# information to check whether the specified version is already installed.
+{% set hotfix_os = [
+    '8.1', '10', '2012ServerR2', '2016Server'
+] %}
+
+{#
+    On Windows 8 or later, and Windows Server 2012 or later, .NET is built into
+    the OS in a way that pkg.installed cannot check for. .NET only shows up in
+    the list of installed updates. Therefore, we need a lookup table that maps
+    .NET version numbers to Hotfix KB ID numbers. The formula will use this
+    information to check whether the specified version is already installed.
+#}
 
 {% set dotnet_ver_to_hotfix = {
-    '4.5.51209' : { 'hotfix_id' : 'KB2934520' },
-    '4.6.00081' : { 'hotfix_id' : 'KB3045563' },
-    '4.6.01055' : { 'hotfix_id' : 'KB3102467' },
+    '4.5.51209' : 'KB2934520',
+    '4.6.00081' : 'KB3045563',
+    '4.6.01055' : 'KB3102467',
 } %}
 
 # Over-ride defaults with user-defined settings from pillar (if available)
 {% do dotnet4.update(salt['pillar.get']('dotnet4:lookup', {})) %}
 
 # Add dotnet kb to the dotnet dictionary
-{% do dotnet4.update(dotnet_ver_to_hotfix[dotnet4['version']]) %}
+{% do dotnet4.update({
+    'hotfix_id': dotnet_ver_to_hotfix[dotnet4['version']],
+    'hotfix_os' : hotfix_os
+}) %}
