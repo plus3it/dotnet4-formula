@@ -2,8 +2,8 @@
 
 {%- set osrelease = salt['grains.get']('osrelease','') %}
 
-{%- if osrelease in [ '8', '2012Server', '2012ServerR2' ] %}
-{#- For Windows 8, ws2012, or ws2012r2, use the pkg *module* to install .NET. #}
+{%- if osrelease in dotnet4.hotfix_os %}
+{#- For win8 or later, or ws2012 or later, use the pkg *module* to install .NET. #}
 dotnet4:
   module.run:
     - name: pkg.install
