@@ -7,9 +7,9 @@
 dotnet4:
   module.run:
     - name: pkg.install
-    - pkgs:
-      - 'dotnet'
-    - version: {{ dotnet4.version }}
+    - m_name: dotnet
+    - kwargs:
+        version: {{ dotnet4.version }}
     - onlyif: 'powershell.exe -noprofile -command
         "if (\"{{ dotnet4.hotfix_id }}\" -in (get-wmiobject -class
                                          win32_quickfixengineering).HotFixID) {
