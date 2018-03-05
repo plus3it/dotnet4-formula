@@ -9,9 +9,8 @@ dotnet4:
     - kwargs:
         version: {{ dotnet4.version }}
     - onlyif: 'powershell.exe -noprofile -command
-        "if (\"{{ dotnet4.hotfix_id }}\" -in (get-wmiobject -class
-                                         win32_quickfixengineering).HotFixID) {
-            echo \".NET {{ dotnet4.version }} already installed\"; exit 1
+        "if (@({{ dotnet4.hotfix_ids | map('tojson') | join(',') | replace('"','\\"') }}) |? { @((get-wmiobject -class win32_quickfixengineering).HotFixID) -contains $_ }) {
+            echo \".NET {{ dotnet4.version }} or greater already installed\"; exit 1
         }"
     '
 {%- else %}
