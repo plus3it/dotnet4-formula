@@ -50,5 +50,5 @@
         dotnet_ver_to_hotfix,
         grain='osrelease',
     )[dotnet4['version']],
-    'hotfix_os': dotnet_ver_to_hotfix.keys()
+    'hotfix_os': salt.grains.get('osrelease', '') in dotnet_ver_to_hotfix.keys()
 }) %}

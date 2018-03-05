@@ -1,8 +1,6 @@
 {%- from "dotnet4/map.jinja" import dotnet4 with context %}
 
-{%- set osrelease = salt['grains.get']('osrelease','') %}
-
-{%- if osrelease in dotnet4.hotfix_os %}
+{%- if dotnet4.hotfix_os %}
 {#- For win8 or later, or ws2012 or later, use the pkg *module* to install .NET. #}
 dotnet4:
   module.run:
