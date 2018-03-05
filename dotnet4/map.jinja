@@ -3,10 +3,6 @@
     'version'     : '4.6.01590',
 } %}
 
-{% set hotfix_os = [
-    '8.1', '10', '2012ServerR2', '2016Server'
-] %}
-
 {#
     On Windows 8 or later, and Windows Server 2012 or later, .NET is built into
     the OS in a way that pkg.installed cannot check for. .NET only shows up in
@@ -16,17 +12,43 @@
 #}
 
 {% set dotnet_ver_to_hotfix = {
-    '4.5.51209' : 'KB2934520',
-    '4.6.00081' : 'KB3045563',
-    '4.6.01055' : 'KB3102467',
-    '4.6.01590' : 'KB3151864',
+    '8.1': {
+        '4.5.51209' : 'KB2934520',
+        '4.6.00081' : 'KB3045563',
+        '4.6.01055' : 'KB3102467',
+        '4.6.01590' : 'KB3151864',
+        '4.7.02053' : 'KB3186539',
+        '4.7.02558' : 'KB4033369',
+    },
+    '10': {
+        '4.6.01055' : 'KB3102495',
+        '4.6.01590' : 'KB3151900',
+        '4.7.02053' : 'KB3186568',
+        '4.7.02558' : 'KB4033393',
+    },
+    '2012ServerR2': {
+        '4.5.51209' : 'KB2934520',
+        '4.6.00081' : 'KB3045563',
+        '4.6.01055' : 'KB3102467',
+        '4.6.01590' : 'KB3151864',
+        '4.7.02053' : 'KB3186539',
+        '4.7.02558' : 'KB4033369',
+    },
+    '2016Server': {
+        '4.6.01590' : 'KB3151900',
+        '4.7.02053' : 'KB3186568',
+        '4.7.02558' : 'KB4033393',
+    }
 } %}
 
 # Over-ride defaults with user-defined settings from pillar (if available)
-{% do dotnet4.update(salt['pillar.get']('dotnet4:lookup', {})) %}
+{% do dotnet4.update(salt.pillar.get('dotnet4:lookup', {})) %}
 
 # Add dotnet kb to the dotnet dictionary
 {% do dotnet4.update({
-    'hotfix_id': dotnet_ver_to_hotfix[dotnet4['version']],
-    'hotfix_os' : hotfix_os
+    'hotfix_id': salt.grains.filter_by(
+        dotnet_ver_to_hotfix,
+        grain='osrelease',
+    )[dotnet4['version']],
+    'hotfix_os': dotnet_ver_to_hotfix.keys()
 }) %}
