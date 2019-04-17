@@ -57,7 +57,7 @@
   ) %}
 
   {% do dotnet4.update({
-      'hotfix_ids': hotfix_map.values()[hotfix_map.keys().index(dotnet4['version']):],
+      'hotfix_ids': (hotfix_map.values()|list)[(hotfix_map.keys()|list).index(dotnet4['version']):],
       'hotfix_os': True,
   }) %}
 {% endif %}
