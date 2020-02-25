@@ -21,6 +21,7 @@ the .NET package.
 - Microsoft Windows 10
 - Microsoft Windows Server 2012 R2
 - Microsoft Windows Server 2016
+- Microsoft Windows Server 2019
 
 **Versions of the Microsoft OS known to treat .NET 4 as a software package**:
 - Microsoft Windows 2008 R2
